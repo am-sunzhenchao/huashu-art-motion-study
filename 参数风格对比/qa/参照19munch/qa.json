@@ -1,0 +1,35 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/scripts/engine",
+ "spec": null,
+ "segments": [
+  {
+   "id": "19_munch",
+   "window_lt": [
+    0.5,
+    1.152
+   ],
+   "frames": 19,
+   "ms_mean": 131.2,
+   "ms_max": 136.5,
+   "ms_cold": 149.2,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 23.41,
+   "motion_max": 24.78,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 1.1,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 38
+  }
+ ],
+ "transitions": [
+  {
+   "id": "19_munch",
+   "type": "screamWarp",
+   "ms_max": 373.9
+  }
+ ],
+ "page_errors": []
+}

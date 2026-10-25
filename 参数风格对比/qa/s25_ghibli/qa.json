@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s25_ghibli",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 21.5,
+   "ms_max": 40.7,
+   "ms_cold": 58,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 2.31,
+   "motion_max": 7.61,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 4.5,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 831
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

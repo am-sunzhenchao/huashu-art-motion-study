@@ -1,0 +1,38 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s08_impressionism",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 11.9,
+   "ms_max": 16.4,
+   "ms_cold": 16.8,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 3.09,
+   "motion_max": 26.68,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 38.1,
+   "spikes_at_lt": [],
+   "camera_events_lt": [
+    [
+     0.871,
+     2.177
+    ],
+    [
+     4.086,
+     5.961
+    ]
+   ],
+   "framing": [],
+   "text_tracked": 1491
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s11_cubism",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 22.1,
+   "ms_max": 49.4,
+   "ms_cold": 51.3,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 2.39,
+   "motion_max": 9.67,
+   "still_pairs_pct": 3.4,
+   "spike_ratio": 5.8,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 2689
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

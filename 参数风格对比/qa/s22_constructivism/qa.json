@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s22_constructivism",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 17.2,
+   "ms_max": 22.6,
+   "ms_cold": 11.4,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 6.15,
+   "motion_max": 20.3,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 3.9,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 1858
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

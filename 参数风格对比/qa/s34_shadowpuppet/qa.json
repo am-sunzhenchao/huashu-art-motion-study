@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s34_shadowpuppet",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 49.1,
+   "ms_max": 58.0,
+   "ms_cold": 55,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 1.2,
+   "motion_max": 5.82,
+   "still_pairs_pct": 2.3,
+   "spike_ratio": 5.9,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 1785
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

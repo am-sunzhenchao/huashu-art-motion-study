@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s23_dali",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 87.1,
+   "ms_max": 147.5,
+   "ms_cold": 138.6,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 1.41,
+   "motion_max": 4.25,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 4.1,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 5110
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

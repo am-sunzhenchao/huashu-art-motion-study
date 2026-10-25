@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/参数风格对比/代码工程",
+ "spec": null,
+ "segments": [
+  {
+   "id": "s33_rubberhose",
+   "window_lt": [
+    0.0,
+    9.98
+   ],
+   "frames": 299,
+   "ms_mean": 30.9,
+   "ms_max": 37.3,
+   "ms_cold": 39.4,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 5.61,
+   "motion_max": 18.11,
+   "still_pairs_pct": 0.0,
+   "spike_ratio": 3.5,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 1315
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}
