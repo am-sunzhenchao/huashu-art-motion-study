@@ -58,7 +58,7 @@ return {
     // 换页：两条色带从左扫到右，最后一条后面露出新页（露出那一帧＝新页的 show 时刻）
     const N = pages[k + 1];
     if (N && !ctx.alpha) {
-      const p = (t - (N.show - 0.3)) / 0.36; if (p > 0 && p < 1) {
+      const p = (t - (N.show - 0.55)) / 0.62; if (p > 0 && p < 1) {
         const mid = (TP ? [TP.accent, TP.accent2, TP.ink, TP.bg] : ['#FFD23F', '#FF5A36', '#14213D', '#3A86FF']).find(x => !same(x, P.col[0]) && !same(x, N.col[0])), cols = [mid, N.col[0]], sk = H * 0.35;   // 两条：一条和前后底色都不同的强调色＋新底色（以前第一条是字色，白字页前会整屏闪一帧白）
         const edge = q => lerp(-sk - 40, W + sk + 40, MO.expoInOut(clamp(q)));
         cols.forEach((col, i) => { const x = edge((p - i * 0.12) / 0.76); c.save(); c.beginPath(); c.moveTo(-sk - 60, 0); c.lineTo(x + sk, 0); c.lineTo(x, H); c.lineTo(-sk - 60, H); c.closePath(); c.clip(); c.fillStyle = col; c.fillRect(0, 0, W, H); c.restore(); });
@@ -92,15 +92,16 @@ function drawPage(c, P, t, ctx) {
       if (mc.toLowerCase() === fg.toLowerCase()) (knock = knock || []).push({ i, mr });   // 荧光笔和字同色（深蓝页黄字）：笔下面的字反白成底色，不然整个词被涂没
     });
   }
-  // 主词：每行在 at（+0.08s/行）砸进来；数字页从 0 滚到落定
+  // 主词：每行在 at（+0.08s/行）砸进来；数字页从 0 滚到落定；首末页保留全幅砸入做重音，中间页轻砸（幅度小、无回弹）
+  const soft = (P === pages[0] || P === pages[pages.length - 1]) ? {} : { from: 1.22, freq: 1.6, decay: 18 };
   lines.forEach((ln, i) => {
     let s = ln; if (P.num) { const k = MO.expoOut(clamp(lt / 0.7)); s = (P.nd.prefix || '') + TY.fmt((P.nd.value || 0) * k, P.nd.decimals ?? 0) + (P.nd.suffix || ''); }
     const w = TY.width(c, s, size), x = W / 2 - w / 2, y = y0 + i * lh;
-    TY.slam(c, s, x, y, lt - i * 0.08, { size, color: fg, scale: hiScale, ox: W / 2, oy: y - size * 0.36, ...stroke });
+    TY.slam(c, s, x, y, lt - i * 0.08, { size, color: fg, scale: hiScale, ox: W / 2, oy: y - size * 0.36, ...soft, ...stroke });
     for (const k of (knock || []).filter(k => k.i === i)) {             // 只在荧光笔那块平行四边形里，用底色再砸一遍同一行（和 TY.marker 同一形状）
       const [mx, my, mw, mh, mp] = k.mr, ww = mw * MO.expoOut(clamp(mp)), sk = mh * 0.18;
       c.save(); c.beginPath(); c.moveTo(mx + sk, my); c.lineTo(mx + ww + sk, my); c.lineTo(mx + ww, my + mh); c.lineTo(mx, my + mh); c.closePath(); c.clip();
-      TY.slam(c, s, x, y, lt - i * 0.08, { size, color: P.col[0], scale: hiScale, ox: W / 2, oy: y - size * 0.36 }); c.restore();
+      TY.slam(c, s, x, y, lt - i * 0.08, { size, color: P.col[0], scale: hiScale, ox: W / 2, oy: y - size * 0.36, ...soft }); c.restore();
     }
   });
   if (sub) subL.forEach((ln, k) => {                                      // 辅句（可两行）；data.key 那个词用强调色

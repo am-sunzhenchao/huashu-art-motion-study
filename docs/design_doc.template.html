@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>huashu-art-motion 设计文档</title>
+<style>
+  :root{
+    --paper:#faf7f2; --surface:#ffffff; --ink:#2b2622; --sub:#6b5f55;
+    --accent:#b8452a; --accent-soft:#f3ded6; --line:#e5ddd2;
+    --code-bg:#f5f1ea; --ok:#2e7d32; --warn:#b8860b; --bad:#b8452a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+    font-size:16px;line-height:1.75}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 28px 96px}
+  header.hero{padding:64px 0 28px;border-bottom:3px solid var(--ink)}
+  .kicker{font-size:13px;letter-spacing:.35em;color:var(--accent);font-weight:700;text-transform:uppercase}
+  h1{font-size:40px;margin:10px 0 8px;line-height:1.25}
+  .lede{color:var(--sub);font-size:17px;margin:0}
+  .meta{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:20px;font-size:13.5px;color:var(--sub)}
+  .meta b{color:var(--ink);font-weight:600}
+  nav.toc{position:sticky;top:0;background:rgba(250,247,242,.94);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);padding:10px 0;z-index:9}
+  nav.toc .wrap{padding-bottom:0;padding-top:0;display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13.5px}
+  nav.toc a{color:var(--sub);text-decoration:none;white-space:nowrap}
+  nav.toc a:hover{color:var(--accent)}
+  section{margin-top:64px}
+  h2{font-size:27px;border-left:6px solid var(--accent);padding-left:14px;line-height:1.3;margin:0 0 6px}
+  h2 .no{color:var(--accent);font-weight:800;margin-right:6px}
+  h3{font-size:20px;margin:36px 0 10px}
+  h3::before{content:"◆";color:var(--accent);font-size:11px;vertical-align:3px;margin-right:8px}
+  h4{font-size:16px;margin:24px 0 8px;color:var(--ink)}
+  p{margin:10px 0}
+  .subline{color:var(--sub);margin:0 0 14px;font-size:14.5px}
+  a{color:var(--accent)}
+  code{background:var(--code-bg);padding:1px 6px;border-radius:4px;font-size:.88em;
+    font-family:"SF Mono",Menlo,Consolas,"Courier New",monospace;color:#7a3b28}
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    overflow-x:auto;font-size:13px;line-height:1.6}
+  pre code{background:none;padding:0;color:var(--ink)}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;background:var(--surface)}
+  th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft);font-weight:700;white-space:nowrap}
+  tr:nth-child(even) td{background:#fcfaf7}
+  figure{margin:26px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:18px 14px 8px;overflow-x:auto}
+  figure svg{display:block;width:100%;height:auto;min-width:760px}
+  figcaption{text-align:center;color:var(--sub);font-size:13px;padding:10px 0 6px;border-top:1px dashed var(--line);margin-top:10px}
+  .callout{border-left:4px solid var(--accent);background:var(--surface);border-radius:0 8px 8px 0;
+    padding:12px 18px;margin:18px 0;font-size:14.5px}
+  .callout b{color:var(--accent)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}figure svg{min-width:640px}}
+  .pill{display:inline-block;font-size:12px;border-radius:99px;padding:1px 10px;margin-right:6px;
+    border:1px solid;font-weight:600;line-height:1.7}
+  .pill.ok{color:var(--ok);border-color:var(--ok)}
+  .pill.warn{color:var(--warn);border-color:var(--warn)}
+  .pill.bad{color:var(--bad);border-color:var(--bad)}
+  ul{padding-left:24px} li{margin:4px 0}
+  .tree{font-family:"SF Mono",Menlo,monospace;font-size:13px;line-height:1.7;background:var(--code-bg);
+    border:1px solid var(--line);border-radius:8px;padding:14px 18px;overflow-x:auto}
+  .tree b{color:var(--accent)}
+  footer{margin-top:72px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Agent Skill · Design Doc</div>
+  <h1>huashu-art-motion 设计文档</h1>
+  <p class="lede">让 coding agent 纯用代码产出动画视频的 skill 包：以 SKILL.md 为入口的任务路由、35 张风格配方、9 种解说动画语法、双管线渲染引擎，以及一条"红灯不交付"的质量门禁链。</p>
+  <div class="meta">
+    <span><b>版本</b> 1.0.0（分析对象）</span>
+    <span><b>作者</b> 花叔</span>
+    <span><b>仓库</b> github.com/alchaincyf/huashu-art-motion</span>
+    <span><b>分析入口</b> SKILL.md</span>
+    <span><b>文档日期</b> 2026-10-25</span>
+  </div>
+</div></header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#s1">1 背景</a>
+  <a href="#s2">2 目标</a>
+  <a href="#s3">3 概要设计</a>
+  <a href="#s4">4 详细设计</a>
+  <a href="#s5">5 二次开发注意事项</a>
+  <a href="#s6">6 附录</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ============ 1 背景 ============ -->
+<section id="s1">
+  <h2><span class="no">1</span>背景</h2>
+
+  <h3>1.1 缘起</h3>
+  <p>这个 skill 起于一次真实复刻：2026-10-04，X 用户 Tak（@cherry_mx_reds）发布了一支 15 秒的「Art History Speedrun」，用 16 个艺术时代讲完艺术史。作者花叔没有录屏或逐帧 AI 生成，而是把这支片子<b>拆解成机制，用代码逐帧重画</b>——HTML5 Canvas 渲染、headless Chromium 逐帧驱动、ffmpeg 合成。复刻成功后，方法论沉淀为可复制的工程（<code>scripts/engine/</code>），并沿三个方向扩展：35 种艺术风格配方、YouTube/科技/财经解说片的 8+1 种动画语法、口播整片参考代码。</p>
+
+  <h3>1.2 它要解决的问题</h3>
+  <p>AI 参与做视频，反复栽在同样的坑上。SKILL.md 把最常见的失败总结成「六种做坏方式」，其中一半是生成式视频的通病：</p>
+  <table>
+    <tr><th style="width:200px">病灶</th><th>典型症状</th><th style="width:120px">拦截手段</th></tr>
+    <tr><td>翻页式 PPT</td><td>固定页眉、要点逐条淡入、每镜同一个镜头动作、结尾居中金句卡；作者原话「完全是放 ppt 的感觉」</td><td><span class="pill bad">storyboard_lint</span><span class="pill bad">film_gate</span></td></tr>
+    <tr><td>一眼 AI 味</td><td>蓝紫渐变底、深紫星空、霓虹青紫——「这种非常 ai slop」；每镜换画风的拼贴</td><td><span class="pill bad">色板锁 + 蓝紫门禁</span></td></tr>
+    <tr><td>死背景 / 空画面</td><td>大面积纯色或星空底不变，只有中间一小块在动</td><td><span class="pill bad">空画面门禁</span></td></tr>
+    <tr><td>没有具体的物</td><td>抽象概念只写成字和图标，写不出一行"物在做什么"</td><td><span class="pill bad">镜头表 lint</span></td></tr>
+    <tr><td>有真实素材却用代码画</td><td>截图、照片、原文本可满幅使用，却被代码重新绘制冲淡可信度</td><td><span class="pill warn">窄桥规则</span></td></tr>
+    <tr><td>照搬示范</td><td>示范片、样例 spec 的构图与素材原样进成片</td><td><span class="pill warn">窄桥规则</span></td></tr>
+  </table>
+  <p>更深一层的问题是：<b>agent 做视频没有工程化的质量关</b>。写代码可以跑测试，做视频的 agent 却常常"渲完就交"。这个 skill 把软件工程的门禁思想搬进视频管线：lint（镜头表）→ CI（qa.py 量化验收）→ 发布门禁（film_gate 红绿灯 + deliver.py 指纹化交付说明）。</p>
+
+  <h3>1.3 定位</h3>
+  <div class="callout">
+    <b>一句话定位：</b>这是一个 agent skill 包（符合 agent skill 规范的 <code>SKILL.md</code> + <code>references/</code> + <code>scripts/</code> 结构），让 coding agent <b>不装任何前端构建系统</b>，纯用代码产出可交付的动画视频；画什么、怎么画的知识以卡片文档形式喂给 agent，渲染与门禁全部脚本化。
+  </div>
+  <p>技术栈刻意求简：渲染引擎是 vanilla JS（ES5 IIFE、Canvas 2D），CLI 工具是 Python 3（PEP 723 内联依赖，经 <code>uv</code> 运行），外部依赖只有 <code>uv</code>、<code>ffmpeg/ffprobe</code>、Playwright Chromium 三个。无 npm、无打包器、无 Node。</p>
+</section>
+
+<!-- ============ 2 目标 ============ -->
+<section id="s2">
+  <h2><span class="no">2</span>目标</h2>
+
+  <h3>2.1 核心目标</h3>
+  <ul>
+    <li><b>G1 纯代码产片</b>：从零到成片全程可由 agent 用代码完成——拆解参考、设计镜头、渲染、合成、质检、交付，每个环节都有 CLI 入口。</li>
+    <li><b>G2 知识可传承</b>：把"导演对镜头/画风的判断"和"每种风格/语法的实做参数"写成结构化卡片（35 风格配方 + 9 动画语法 + 12 篇方法文档），agent 按需检索，而不是靠模型即兴发挥。</li>
+    <li><b>G3 质量可验收</b>：所有质量要求落成脚本门禁——镜头表 lint、qa 量化、成片红绿灯、指纹化交付说明；<b>红灯不交付</b>。</li>
+    <li><b>G4 结果可复现</b>：确定性契约——所有随机播种，同一时刻渲两次逐像素一致；clip 时长 frame-exact。</li>
+  </ul>
+
+  <h3>2.2 非目标</h3>
+  <ul>
+    <li>不做实时/交互式动画编辑器，只做离线逐帧渲染管线。</li>
+    <li>不内置语音与生图能力：语音复刻与图片生成按需配置（策略默认 <code>ask</code>），凭证保存在安装目录之外，公共默认不绑定作者声音。</li>
+    <li><b>不用代码画人脸、机器人，也不给物加脸</b>——角色由 AI 生帧 + 代码合成（B/C 两法），或只出手和背影。原因（出自 <code>references/角色精细度.md</code>，作者被多支片子逼出来的结论）：
+      <ul>
+        <li><b>一眼 AI 味，全片被拖垮</b>：圆头豆豆眼小人、白壳蓝面罩机器人、长了脸的金币是"AI 默认角色"，观众第一反应是「AI 做的」——作者原话「颜色和人的风格形象都有些 ai slop」；<b>粗糙的角色比没有角色更差</b>。</li>
+        <li><b>代码画脸达不到交付线</b>：帧库角色要过 8 条（剪影认得出、骨架比例、手能真的握物、两层明暗、三处材质细节、表演具体到"皱眉看手机"、与背景同画风、多镜五官一致），Canvas 参数化拼装的形状几乎必挂，短板正在「表演具体」与「前后一致」。</li>
+        <li><b>给物加脸是把"讲清楚"偷换成"卖萌"</b>：表情包式的脸不增加信息量；物可以用形状与动作（冷时挤成一团）、尺度、对比、真实素材来"演"，不加脸照样讲活。</li>
+        <li>规则被工程化强制：y4 无帧库启动即失败、<code>lib/toon.js</code> 代码角色停用、lint 与独立审片都会拦；例外是全片主角为拟物角色（如一支画笔）时，过「三方向硬门」并由用户挑定造型后可以有脸。</li>
+      </ul>
+    </li>
+    <li>不做逐像素复刻服务——复刻是学机制（场景、运动、转场规律），不是描图。</li>
+  </ul>
+
+  <h3>2.3 成功标准（可验证）</h3>
+  <table>
+    <tr><th>维度</th><th>标准</th><th>验证方式</th></tr>
+    <tr><td>确定性</td><td>同一 t 渲两次，像素一致</td><td><code>qa.py</code> 冷热双渲染像素比对</td></tr>
+    <tr><td>节奏</td><td>快速运动帧占比 ≥ 0.035（&lt;0.035 红，&lt;0.06 黄）</td><td><code>film_gate.py</code></td></tr>
+    <tr><td>画面</td><td>无连续 ≥0.3s 空画面；蓝紫帧 &lt; 30%</td><td><code>film_gate.py</code>（给时间码）</td></tr>
+    <tr><td>时长</td><td>clip 帧数 = round(duration × fps)，管线按秒 seek 不冻帧</td><td>H.264 GOP = fps</td></tr>
+    <tr><td>正确性</td><td>10 个测试文件全绿（含 Windows 冒烟）</td><td><code>python -m unittest discover -s tests</code></td></tr>
+    <tr><td>知识覆盖</td><td>35 风格卡 + 9 语法卡 + 12 方法文档 + 经验回流闭环</td><td><code>release-manifest.json</code> 审计</td></tr>
+  </table>
+</section>
+
+<!-- ============ 3 概要设计 ============ -->
+<section id="s3">
+  <h2><span class="no">3</span>概要设计</h2>
+
+  <h3>3.1 总体架构：四层结构</h3>
+  <p class="subline">skill 的四个层次自上而下是"知识 → 判断 → 工具 → 引擎"，层间只通过文档约定与 CLI 接口耦合。</p>
+  {{FIG_ARCH}}
+  <table>
+    <tr><th style="width:150px">层</th><th>组成</th><th>职责与接口</th></tr>
+    <tr><td><b>入口层</b></td><td><code>SKILL.md</code></td><td>agent 的唯一入口：任务路由表（用户说什么 → 读哪份文档）、模型分档（开阔档/轨道档）、导演要求、六种做坏方式、验收与回流协议、版本检查协议。</td></tr>
+    <tr><td><b>知识层</b></td><td><code>references/</code></td><td>12 篇方法文档 + 风格配方 35 卡 + 动画语法 9 卡 + 模板规范（镜头表、色板、镜头语言、角色精细度）。是 agent 的"大脑外挂"，全部按需读取。</td></tr>
+    <tr><td><b>工具层</b></td><td><code>scripts/*.py</code></td><td>CLI 工具链：创作门禁（storyboard_lint、qa、subzone_gate）、交付门禁（film_gate、deliver）、可选能力（capabilities/koubo/images）、拆解（analyze/breakdown）、素材工具、发布审计（check_release）。</td></tr>
+    <tr><td><b>引擎层</b></td><td><code>scripts/engine/</code></td><td>可整体复制的渲染工程：双模式运行时（engine.js / clip.js）、36 个风格场景、17+ 绘制库、转场库、渲染器 render.py。开新片 = <code>cp -R</code> 到项目里改。</td></tr>
+  </table>
+
+  <h3>3.2 双管线渲染</h3>
+  <p class="subline">Film 与 Clip 两种模式服务不同制作形态，共享同一渲染内核（本地 HTTP + 无头 Chromium + ffmpeg）与同一套绘制库。</p>
+  {{FIG_PIPE}}
+  <table>
+    <tr><th style="width:110px"></th><th>Film 模式（风格长片）</th><th>Clip 模式（解释类片段，主产线）</th></tr>
+    <tr><td><b>输入</b></td><td><code>eras.js</code> 段落表（id、eighths|dur、transition、计数卡）</td><td>JSON spec：<code>{grammar, duration, fps, width, height, safe, theme, data, cues[]}</code></td></tr>
+    <tr><td><b>时间轴</b></td><td>BPM 八分音符节拍栅格（默认 128BPM），可写秒级 <code>dur</code></td><td>线性秒轴，cue 以 <code>at</code> 触发，无段落表无转场</td></tr>
+    <tr><td><b>运行时</b></td><td><code>engine.js</code>：t → frame，离屏缓冲 A/B 做转场</td><td><code>clip.js</code> + <code>clips/&lt;grammar&gt;.js</code> 注册进 <code>CLIPS[grammar]</code></td></tr>
+    <tr><td><b>画面单元</b></td><td><code>scenes/&lt;id&gt;.js</code> 的 <code>draw(c, lt, t)</code></td><td>语法库内建版式（中心物、桌面拼贴、白板、豆子角色……）</td></tr>
+    <tr><td><b>调用</b></td><td><code>render.py --film &lt;名&gt;</code> / <code>--solo &lt;id&gt;</code></td><td><code>render.py --spec 片段.json</code>（<code>--alpha</code> 出 ProRes 4444 透明）</td></tr>
+  </table>
+
+  <h3>3.3 核心概念模型</h3>
+  <ul>
+    <li><b>镜头表</b>（<code>&lt;项目&gt;/镜头表.md</code>）：轨道档工作流的源头，一行一镜——时间段、物（名词）、动作（动词）、镜头（停/缓推/拉远/横移/快推/砸入/切）、屏上字、做法；表前锁画风、色板、角色。lint 不过不许写代码。</li>
+    <li><b>spec 契约</b>：口播管线与引擎的稳定接口。8 选 1 的 <code>grammar</code> + 时长精确的 <code>cues[]</code>；<code>at</code> 是"揭开那一帧"（数字类是落定时刻），<code>kind</code> 写错静默不画。</li>
+    <li><b>门禁（gate）</b>：可计算的验收阈值。镜头表 lint → qa 量化 → film_gate 三红灯 → deliver 复制成片并写指纹化交付说明。红灯链条式阻断：lint 红灯不许写码，gate 红灯不出片。</li>
+    <li><b>经验回流</b>：做完一支，把"做对的事"（做法+证据+为什么+何时用）写进 <code>07-正面经验.md</code>，新风格补配方卡，新坑写进对应 reference 的「踩过的坑」，CHANGELOG 记一行——知识层因此随使用变厚。</li>
+    <li><b>模型分档</b>：对使用方 agent 的能力分级——开阔档（强模型，可自由组合库、自写渲染器）与轨道档（照六步流程走，只读流程点名的文件）。同一 skill 兼容不同水平的使用者。</li>
+  </ul>
+
+  <h3>3.4 关键设计决策</h3>
+  <table>
+    <tr><th style="width:230px">决策</th><th>理由</th><th>被放弃的替代</th></tr>
+    <tr><td>无构建系统的 ES5 IIFE 引擎</td><td>skill 要在任意机器开箱即用；headless Chromium 直接加载，无 transpile 环节，故障面最小</td><td>npm/webpack/ES modules（引入 Node 工具链依赖）</td></tr>
+    <tr><td>逐帧截图而非实时录屏</td><td>时间 t 完全由外部驱动 → 确定性契约可成立（同 t 同像素）；可 <code>--stills</code> 抽帧检查</td><td>MediaRecorder 实时录制（帧率不可控、不确定）</td></tr>
+    <tr><td>像素流走 ffmpeg stdin 管道</td><td>base64 PNG → pipe → H.264，避免落盘中间帧；GOP=fps 支持管线按秒 seek</td><td>先出 PNG 序列再合（IO 翻倍）</td></tr>
+    <tr><td>JSON spec 作为 clip 唯一契约</td><td>口播管线（外部程序）可编程对接：从词级时间戳算 cue，不碰 JS</td><td>让管线直接写 JS（强绑定、易出错）</td></tr>
+    <tr><td>知识卡片化（35+9 卡）</td><td>参数、坑、质量短板全部结构化沉淀，agent 按需读一页就能开工</td><td>长篇教程文档（上下文成本高、检索难）</td></tr>
+    <tr><td>门禁前置、红灯不出片</td><td>把"审片"从主观判断变成可计算阈值，agent 无法绕过交付纪律</td><td>靠 agent 自觉或人工抽查</td></tr>
+    <tr><td>相机只由时间决定</td><td>推拉移都是同一世界画布在不同相机下重画，放大 60 倍也不糊（矢量重绘），转场中上一镜可继续推</td><td>缩放位图/双层画布叠加</td></tr>
+    <tr><td>凭证与默认配置分离</td><td>私人音色/参数放安装目录外，skill 升级不覆盖、公共包不携带作者凭证</td><td>配置进仓库（泄漏 + 升级冲突）</td></tr>
+  </table>
+
+  <h3>3.5 目录结构</h3>
+  <div class="tree">
+<b>huashu-art-motion/</b>
+├── <b>SKILL.md</b>                 # agent 入口：路由表、分档、导演要求、门禁、回流
+├── <b>references/</b>              # 知识层
+│   ├── 01~13-*.md                  #   12 篇方法文档（拆解/机制/绘制/节奏/口播/角色/长卷…）
+│   ├── 风格配方/                    #   35 张风格卡 + INDEX（材料层/时代标本两表）
+│   ├── 动画语法/                   #   9 张语法卡（y1–y6、t1–t3）
+│   ├── 镜头表模板.md / 镜头语言.md / 色板.md / 角色精细度.md
+│   └── capabilities.md / images.md / 口播API.md / about-author.md
+├── <b>scripts/</b>                 # 工具层（PEP 723，uv run）
+│   ├── storyboard_lint.py / qa.py / subzone_gate.py    # 创作门禁
+│   ├── film_gate.py / deliver.py                        # 交付门禁
+│   ├── capabilities.py / koubo.py / images.py           # 可选能力（默认 ask）
+│   ├── analyze/breakdown.py · compare.py · font_subset.py · key_*.py
+│   ├── check_release.py             # 发布审计（git 对象级）
+│   └── <b>engine/</b>               # 引擎层（可整体复制为 <项目>/代码工程）
+│       ├── render.py / spec_assets.py / compare.py
+│       ├── index.html / clip.html   #   film / clip 预览页
+│       ├── engine.js / eras*.js / transitions.js        #   film 运行时
+│       ├── clip.js / clip.html → clips/（8 个语法运行时）
+│       ├── scenes/（36 个编号风格场景）
+│       ├── lib/（MO CAM DG TY CH UI CL MD TOON + brush/paint/palettes/post/rig/kit…）
+│       ├── demos/（8 语法示范片 + long_scroll 长卷骨架）
+│       ├── examples/（spec 样例 + assets）
+│       └── reference_films/spacex/  #   口播整片参考代码
+├── <b>tests/</b>                    # unittest（Pillow 像素断言，缺依赖自动 skip）
+├── defaults/media.json + schemas/media.schema.json     # 能力配置默认值与 Schema
+└── release-manifest.json           # 发布审计清单（sha256）
+  </div>
+</section>
+
+<!-- ============ 4 详细设计 ============ -->
+<section id="s4">
+  <h2><span class="no">4</span>详细设计</h2>
+
+  <h3>4.1 入口层：SKILL.md 的路由与分档</h3>
+  <p>SKILL.md 不是说明书，而是<b>给 agent 的执行程序</b>。它包含五类可执行指令：</p>
+  <ul>
+    <li><b>模型分档</b>：先自判档位。开阔档（强模型）读全文并允许自写渲染器；轨道档只走一条 6 步流水线，且每步只读点名的文件——控制弱模型的上下文与自由度。</li>
+    <li><b>任务路由表</b>：8 行「用户说的 → 做什么 → 读什么」的映射，覆盖复刻、风格动画、口播艺术片、配乐、角色、风格委托、长卷穿越、解说动画八类任务。</li>
+    <li><b>导演要求</b>：镜头是标点（看得清就不动；过渡用缓的、重音才用快的；有来有回）、画风服务内容（有真实素材素材就是主画面；一片一套画风一套色板管到最后一帧）。</li>
+    <li><b>窄桥硬规则</b>：人用 AI 生帧不画人脸、示范只学做法不搬内容、复刻学机制不逐像素、三方向硬门、确定性、独立审片。</li>
+    <li><b>验收与回流协议</b> + <b>版本检查协议</b>（见 4.7）。</li>
+  </ul>
+
+  <h3>4.2 知识层：references 的组织</h3>
+  <table>
+    <tr><th style="width:220px">文档/卡</th><th>内容</th></tr>
+    <tr><td>01 拆解 → 02 机制</td><td>参考视频拆解方法（breakdown.py 配套）；艺术史速通的"五层机制"（同一场景换风格）</td></tr>
+    <tr><td>03 一帧先行 / 04 纯代码绘制</td><td>先静帧定稿再让它活；Canvas 工程骨架与各层职责</td></tr>
+    <tr><td>05 节奏与配乐 / 11 长卷穿越片</td><td>BPM 网格、动机换乐器、结尾音效序列；跨边界换画风的长卷骨架</td></tr>
+    <tr><td>06/12/13 口播线</td><td>口播驱动的艺术短片（草案）、口播整片与经验回流、语音复刻（火山豆包 API）</td></tr>
+    <tr><td>07 正面经验 / 08 风格作者规范 / 10 角色</td><td>做对的事（做法+证据+为什么+何时用）；写一张 scene 的通用接口与硬要求；AI 生帧 + 代码合成（B/C 两法）</td></tr>
+    <tr><td>09 视频动画语法</td><td>8 语法的总目录、选型表、跨语法规律 12 条、库速查、片段契约（本 skill 最重的一份文档）</td></tr>
+    <tr><td>风格配方/INDEX.md</td><td>35 卡分「材料层（可盖任何题材）/ 时代标本（速通致敬用）」两表，每行：id、核心渲染器、母题动作、签名转场、当前质量、短板——<b>短板列驱动下一次超越</b></td></tr>
+    <tr><td>动画语法/ 9 卡</td><td>每种语法一页：一句核心语法、镜头基调、缓动与转场、起手必查</td></tr>
+    <tr><td>模板规范 4 份</td><td>镜头表模板（轨道档第 1 步）、镜头语言（动作表与次数何时管）、色板（6 键结构 + 蓝紫禁区）、角色精细度（粗糙角色不如无角色，只出手和背影）</td></tr>
+  </table>
+
+  <h3>4.3 引擎层</h3>
+
+  <h4>4.3.1 渲染器 render.py（统一入口）</h4>
+  <pre><code>流程：起本地 HTTP 服务（spec 素材经白名单 /__file__/ 提供）
+  → 无头 Chromium 打开 index.html / clip.html
+  → 对每帧 evaluate：await prepare(t); renderFrame(t); canvas.toDataURL(png)
+  → base64 解码 → 写 ffmpeg stdin（image2pipe, -framerate fps）
+  → H.264 yuv420p（GOP=fps，按秒 seek 不冻帧）；--alpha 时 ProRes 4444
+模式：--film &lt;名&gt;（读 eras_&lt;名&gt;.js 整片）｜ --solo &lt;id&gt;（单段试渲）
+     --spec clip.json（参数化片段，帧数 = round(duration×fps)）
+     --stills 0.5,2（只抽静帧检查）｜ --width/--height 覆盖画幅（竖屏 1080×1920）</code></pre>
+  <p>页面报错（语法文件出错、图片/视频帧不存在、spec 缺字段）会设置 <code>window.__bootFailed</code>，render.py 感知后<b>非零退出、不出片</b>——"素材缺失一律报错，不画空白帧"是引擎的硬规则。</p>
+
+  <h4>4.3.2 Film 模式运行时</h4>
+  <ul>
+    <li><code>eras.js</code> 段落表：每段 <code>{id, eighths|dur, transition, clip?}</code>；<code>window.BPM</code> 改节拍、<code>window.PUNCH=0</code> 关拍点冲击、<code>window.FILM_SIZE</code> 定画幅。</li>
+    <li><code>engine.js</code>：t → frame；BPM 八分音符栅格生成时间线；离屏缓冲 A/B（转场中上一镜按时间继续推相机，<code>zoomThrough</code> 的 <code>live:true</code> 由此实现）。</li>
+    <li><code>scenes/&lt;id&gt;.js</code>：每个风格一个文件，实现 <code>draw(c, lt, t)</code>（lt 为本段局部时间），登记进 eras.js；两位数字编号与风格配方卡对应。</li>
+    <li><code>transitions.js</code>：转场库，每个函数从两段画面提取时代签名形式元素；解说语法另有 13 个专用转场（lensReveal、matchCut、fillZoom、bands、blurPush…）。</li>
+  </ul>
+
+  <h4>4.3.3 Clip 模式运行时与 spec 契约</h4>
+  <p><code>clip.js</code> 同步 XHR 拉取 <code>clips/&lt;grammar&gt;.js</code> 并 <code>eval</code> 注册到 <code>CLIPS[grammar] = { init?, draw, safe? }</code>；spec 由 render.py 注入 <code>window.CLIP_SPEC</code>。关键契约：</p>
+  <table>
+    <tr><th style="width:130px">字段</th><th>约定</th></tr>
+    <tr><td><code>at</code></td><td>秒，必填。「揭开那一帧」：元素在 t=at 这帧首次可见，动画内部从 at−1/fps 起算；例外：number 的 at 是数字<b>落定</b>时刻</td></tr>
+    <tr><td><code>kind</code></td><td>必填。<b>写了语法不认的 kind 不报错、什么都不画</b>——对着语法卡写</td></tr>
+    <tr><td><code>safe</code></td><td>{top,bottom,left,right,fill?}，让开字幕带；8 语法均接 top/bottom（语法对象 <code>safe:true</code>），left/right 尚无语法排版</td></tr>
+    <tr><td><code>theme</code></td><td>一支片所有 spec 同一个：色板名（paper/poster/ink/navy/bauhaus/snow/wood/chalk）或 6 键对象 {bg,surface,ink,sub,accent,accent2}；色值非法启动失败</td></tr>
+    <tr><td><code>number</code></td><td>只有 t2/t3/y5 认：data.value 从 0 滚到 value（expoOut），prefix/suffix/decimals，at≥0.9（y5 为 0.7）</td></tr>
+    <tr><td>时长上限</td><td>单片段 ≤8s，超时开头结尾各打一次警告（口播管线有合法长片段）</td></tr>
+    <tr><td>素材</td><td>cue.image / frames（帧序列目录或数组）/ data.character（y4 帧库）；路径相对 spec，白名单经 <code>spec_assets.py</code> 校验改写，缺失拒绝渲染</td></tr>
+  </table>
+  <p>8 种语法一览：y1 Kurzgesagt 扁平科普（中心物+卫星节点+尺度穿行）、y2 Vox 拼贴（真实材料桌面+红线荧光笔）、y3 白板手绘（说一句写一句）、y4 storytime（豆子角色，需自备 AI 帧库）、y5 动态文字（一 cue 一页）、t1 3b1b（黑底形变讲机制）、t2 发布会界面（截图满幅推近）、t3 财经图表（坐标系先出、数据诚实）。y6 讲解员式提供语法卡与整片参考代码（<code>reference_films/spacex/</code>），尚无参数化片段。</p>
+
+  <h4>4.3.4 绘制库 lib/（命名空间速查）</h4>
+  <table>
+    <tr><th style="width:150px">命名空间</th><th>核心能力</th></tr>
+    <tr><td><code>MO</code> motion.js</td><td>缓动全集（manim smooth、bezier、SwiftUI spring）、<code>PULSE</code> 镜头动作时长、<code>slam</code> 砸入、<code>step</code> 12fps 步进、<code>beat/onBeat</code> 拍点对齐</td></tr>
+    <tr><td><code>CAM</code> camera.js</td><td>世界画布相机：<code>zlerp</code> 对数缩放、<code>track</code> 镜头动作表（push/pull/glide/punch/pan/slam/shake/cut，不写动作=缓推）、motionBlur、drift</td></tr>
+    <tr><td><code>DG</code> diagram.js</td><td>点列逐笔描出、形变 Transform、manim Write、白板笔画时间线、indicate/circumscribe、MANIM 色板</td></tr>
+    <tr><td><code>TY</code> typo.js</td><td>text/fit（缩字号折行）、charsIn、slam、typed、marker、count/tabular（数字滚动等宽）</td></tr>
+    <tr><td><code>CH</code> chart.js</td><td>坐标系先出、bars 从 0 长出、line/candles、callout 引线标注、经济学人版式</td></tr>
+    <tr><td><code>UI</code> / <code>CL</code> / <code>MD</code> / <code>TOON</code></td><td>光斑底/毛玻璃/伪 3D；纸纹撕边网点红线荧光笔；真实素材满幅冲印件标签；双色分面豆子角色（仅示范）</td></tr>
+    <tr><td>其余</td><td>brush（毛笔飞白墨晕）、paint/palettes（风格渲染底座 + 8 套 6 键色板）、post（VHS/胶片媒介层）、rig/rig_huashu（角色骨架 IK/FK）、kit、fonts、util、render（网点点彩赛璐珞…）</td></tr>
+  </table>
+  <p>字体：中文黑体 <code>PuHui-*</code>（开源版即思源黑体 Noto Sans SC 四字重，family 名沿用）、白板 <code>LXGWWenKai-500</code>，均为 GB2312 全部 6763 汉字子集，换题目一般不补字；公式 CMU、发布会 Inter、财经数字 RobotoCondensed。系统字体不进成片（换机器会变样）。</p>
+
+  <h3>4.4 工具层</h3>
+  <table>
+    <tr><th style="width:200px">工具</th><th>做什么 / 关键行为</th></tr>
+    <tr><td><code>storyboard_lint.py</code></td><td>镜头表机械检查：画风锁三行、文字主导镜 ≤30%、一镜 2–6s、连续三镜往里推、重音过多、空镜纯色黑场、结尾字卡；<code>--script</code> 交叉核对口播数字。红灯不许开始写代码</td></tr>
+    <tr><td><code>qa.py</code></td><td>数值验收（工程级或 --spec）：确定性（冷热双渲染像素比对）、耗时、运动、静止帧对、孤立跳变、文字框景；2 秒内单调平滑的推拉横移记作镜头事件不算跳变</td></tr>
+    <tr><td><code>subzone_gate.py</code></td><td>浅底无字幕成片：检查图形进入字幕区（numpy，纹理底不适用）</td></tr>
+    <tr><td><code>film_gate.py</code></td><td>成片三红灯（见 4.5）；deliver.py 的前置门禁</td></tr>
+    <tr><td><code>deliver.py</code></td><td>一条命令交付：跑 film_gate → 红灯不复制成片非零退出 → 绿/黄灯复制成片 + 写 <code>交付说明.md</code>（事实段脚本指纹化写入，<code>--verify</code> 查得出改动）</td></tr>
+    <tr><td><code>capabilities.py</code> / <code>koubo.py</code> / <code>images.py</code></td><td>可选语音/图片能力的配置加载校验（默认策略 ask）；声音复刻训练与合成；图片接入观察与验收（不替 agent 调工具）。配置存安装目录外</td></tr>
+    <tr><td><code>analyze/breakdown.py</code> / <code>compare.py</code></td><td>参考视频拆解（剪辑点/节拍栅格/运动热图/关键帧）；双画面并排对比图</td></tr>
+    <tr><td><code>font_subset.py</code> / <code>key_green.py</code> / <code>key_split.py</code></td><td>中文字体抽子集出 woff（自动修全角空格 0 宽坑）；绿幕抠图；按列空隙切单姿势</td></tr>
+    <tr><td><code>check_release.py</code></td><td>发布审计：按 git 对象（非磁盘文件）增量扫描待发布内容、核对 release-manifest、查敏感凭据——防"先提交后删除"的漏检</td></tr>
+  </table>
+
+  <h3>4.5 质量门禁与交付链</h3>
+  <p class="subline">轨道档六步流水线，三处红灯点层层拦截。</p>
+  {{FIG_FLOW}}
+  <table>
+    <tr><th style="width:190px">门禁</th><th>阈值与判定</th><th style="width:90px">后果</th></tr>
+    <tr><td>快速运动帧占比</td><td>&lt;0.035 红灯（整片几乎没有镜头内运动 / 翻页 PPT 感）；&lt;0.06 黄灯（推近太密，用正常速度看一遍）</td><td><span class="pill bad">红灯</span></td></tr>
+    <tr><td>空画面</td><td>成片中段连续 ≥0.3s 近乎纯色或整帧无边缘的空画面（给时间码）；片段再短也拦</td><td><span class="pill bad">红灯</span></td></tr>
+    <tr><td>蓝紫底</td><td>蓝紫帧占全片 ≥30% 红灯；题材本身要蓝紫时 <code>--allow-blue-purple "理由"</code> 降黄，理由写进交付说明</td><td><span class="pill bad">红灯</span></td></tr>
+    <tr><td>字幕区入侵</td><td>浅底无字幕成片，图形进入字幕带（纹理底不适用）</td><td><span class="pill warn">黄</span></td></tr>
+  </table>
+  <div class="callout">
+    <b>门禁的边界：</b>门禁只拦得住可计算的三样；页框、米底小图、前紧后松、每镜换画风的拼贴拦不住——所以交付说明要求人工段补「六种做坏方式」自查与逐镜 qa 结论，且<b>运镜顺不顺必须用正常速度把成片看一遍</b>。静止多不是病（解说片本有大段停住），静止类数字不用于判定。
+  </div>
+  <p>交付产物：<code>output/成片.mp4</code> + <code>交付说明.md</code>。说明书的<b>事实段（时长、门禁各项、最差 30 秒窗口、qa 结果、有没有审片）由脚本带指纹写入，不许手改</b>；制作者只在「制作说明」段补语法用法、逐镜 qa、黄灯理由与自查。派了独立审片的，审片 agent 只看成片、结论写进 <code>&lt;项目&gt;/审片/*.md</code>，deliver.py 只认这个目录。</p>
+
+  <h3>4.6 测试与 CI</h3>
+  <ul>
+    <li>Python stdlib unittest，无 pytest；渲染测试是<b>集成型</b>的：真实启动 render.py + Playwright，用 Pillow 断言像素；uv/Playwright/ffmpeg 缺失时自动 skip。</li>
+    <li>覆盖：film_gate 三门禁各自有专项测试（慢/快/平滑合成片、空白片、蓝紫片）；storyboard_lint 绿灯/红灯理由；clip 的 theme 解析与 y4 无帧库启动失败；本地服务定义；能力配置；发布审计。</li>
+    <li>JS 引擎无单元测试——质量由 qa/film_gate/deliver 在交付时强制，确定性契约用双渲染兜底。</li>
+    <li>CI（GitHub Actions）：job <code>contracts</code>（ubuntu，Python 3.10/3.12，unittest + check_release）+ job <code>windows-render</code>（Windows 冒烟：渲 09_postimp 静帧 + <code>qa.py --fps 5</code>）。</li>
+  </ul>
+
+  <h3>4.7 版本检查与发布</h3>
+  <ul>
+    <li><b>版本检查协议</b>：skill 使用时读 <code>.last-update-check</code>（日期+结果）；到期（ok 30 天 / failed 7 天）才 <code>git ls-remote --tags origin 'v*'</code> 比对 <code>metadata.version</code>；远程更高只提醒不自动更新，<code>off</code> 可永久关闭。只写这一个文件，不上传数据。</li>
+    <li><b>发布卫生</b>：<code>release-manifest.json</code>（sha256 清单）+ <code>check_release.py</code> 审计 <b>git 对象</b>而非磁盘文件——磁盘上删掉的文件只要进了历史就查得出，防凭证先提交后删除的漏检。</li>
+  </ul>
+</section>
+
+<!-- ============ 5 二次开发 ============ -->
+<section id="s5">
+  <h2><span class="no">5</span>二次开发注意事项</h2>
+
+  <h3>5.1 新增一种艺术风格</h3>
+  <ol>
+    <li>写 <code>scenes/NN_&lt;id&gt;.js</code>（编号与 <code>风格配方/NN_&lt;id&gt;.md</code> 一一对应），实现 <code>draw(c, lt, t)</code> 并登记进 <code>eras.js</code>（gallery 则登记 <code>eras_gallery.js</code>）。</li>
+    <li>配方卡必写：实做参数、母题动作、签名转场、<b>当前质量与短板</b>——INDEX 明言"下一次做到它时先超越短板"。</li>
+    <li>每幕一个主动作 + 2 个母题循环，画要一直活；随机全部播种。</li>
+    <li>35 张样片共用同一房间构图是<b>速通片的机制</b>，不是风格的构图——新题材要为题材重新构图，不许照搬。</li>
+    <li>完成后走回流：卡补进 INDEX 两表之一（材料层/时代标本），CHANGELOG 记一行。</li>
+  </ol>
+
+  <h3>5.2 新增一种动画语法</h3>
+  <ol>
+    <li>写 <code>clips/&lt;前缀&gt;_&lt;名&gt;.js</code>，注册 <code>CLIPS[grammar] = { init?(ctx), draw(c,t,ctx), safe?: true }</code>；前缀沿用 y1–y6 / t1–t3 语义或另立。</li>
+    <li>spec 给了 <code>safe</code> 而语法没接（对象里没写 <code>safe:true</code>）时 clip.js 会 console.warn——按 <code>ctx.box</code> 排版，别学一半。</li>
+    <li>同步写 <code>references/动画语法/&lt;语法&gt;.md</code>（一句核心语法、镜头基调、起手必查、认哪些 cue kind）+ <code>demos/</code> 示范片 + <code>examples/</code> 样例 spec。</li>
+    <li>版式遵循退路原则（见 5.5）；步进动画从 cue 的 <code>at</code> 起算：<code>MO.step(t-at, 12)</code>，否则元素会早最多一格露出。</li>
+  </ol>
+
+  <h3>5.3 spec 扩展的坑</h3>
+  <ul>
+    <li><b>静默 kind</b>：语法不认识的 kind 不报错不画——这是有意设计（cue 公共字段跨语法复用），扩展字段时必须同步语法卡与 09 号文档，否则下游写了也不生效。</li>
+    <li><b>camera:"snap" 的位置</b>：快推开关必须写在 spec 顶层 <code>data</code>（<code>{"data":{"camera":"snap"}}</code>）；写在 cue 的 data 或顶层同级都不生效也不报错。</li>
+    <li><b>number 不继承</b>：t3 的 spec 级 <code>decimals</code> 只管柱标签，number cue 要小数得自己再写。</li>
+    <li><b>safe 的 left/right 未接</b>：目前只有 top/bottom 参与排版，left/right 仅被 fill 涂色。</li>
+    <li><b>rect 目测偏移 20–30%</b>：t2/y2 的 highlight rect 要先 <code>--stills</code> 渲一张核对；竖屏一句话跨两行就拆成两个 highlight 各对一个关键词。</li>
+    <li><b>8 秒上限</b>：单片段超 8 秒只警告不报错（口播管线有合法长片段），自用时拆镜。</li>
+  </ul>
+
+  <h3>5.4 确定性与性能契约</h3>
+  <ul>
+    <li>所有随机必须经 <code>U.rng</code> 等播种工具；新代码引入 <code>Math.random()</code>/未播种噪声会打破冷热双渲一致性，qa 直接报红。</li>
+    <li>复用离屏缓冲时注意残留：t2 曾因复用缓冲带上一帧残留导致同一时刻渲两次差 1 色阶——改缓冲复用要清底。</li>
+    <li>两层帧率是刻意的（相机平滑、元素 12fps 步进 / 角色 24fps），别为了"丝滑"统一成 60fps——全丝滑像企业宣传片，全步进会晃。</li>
+    <li>环境层（星闪、粒子）只读片段时间不读全片时间，避免片子在时间轴上的位置影响相位（历史上 <code>T2.PHASE</code> 坑）。</li>
+  </ul>
+
+  <h3>5.5 版式退路原则</h3>
+  <div class="callout">
+    凡是「放不下」的地方都要有退路：<b>先缩字号、再折行、再让位（旧元素上卷淡出），最后才告警</b>。只在样例长度上调好的版式，一碰真实口播就破——y1 标题被切、y3 说明出画、y4 打字溢出气泡、t3 副标题出画，全是终审在真实长度的 spec 上抓出来的。新语法交付前必须用横屏、竖屏、真实长度、边界、alpha 各渲一遍。
+  </div>
+
+  <h3>5.6 字体与素材</h3>
+  <ul>
+    <li>新增字体走 <code>font_subset.py</code> 抽 GB2312 子集，输出 <b>woff（不是 woff2）</b>——引擎的 <code>U.loadCmaps</code> 只解 WOFF1/TTF；许可写进 <code>lib/fonts/LICENSES.md</code>。</li>
+    <li>全角空格在普惠体里字宽为 0 会粘字，<code>font_subset.py</code> 抽子集时自动设为与「一」同宽，旧文件用 <code>--fix-widths</code> 修。</li>
+    <li>思源黑/宋（NotoSansSC/NotoSerifSC）只含三支示范片用到的字，新内容别用；系统字体（Menlo、宋体）不进成片。</li>
+    <li>spec 内素材路径相对 spec 文件，只有点名的文件经 <code>/__file__/</code> 白名单提供；新语法读素材一律用 <code>MD.*</code>，缺失报错不画空帧。</li>
+  </ul>
+
+  <h3>5.7 发布、升级与文档同步</h3>
+  <ul>
+    <li>所有新 Python 脚本沿用 PEP 723 内联依赖 + <code>uv run</code>，不要引 requirements.txt。</li>
+    <li>用户私人配置（音色、参数、凭证）在安装目录外，<b>升级不得覆盖</b>；新增能力默认 <code>ask</code>，不会自动获准。</li>
+    <li>发版前跑 <code>check_release.py check</code> 并更新 release-manifest；敏感信息看 git 历史不只看工作区。</li>
+    <li><b>实际与文档不符时以实际为准，然后把文档改对</b>——交付说明的事实段带指纹不许手改（<code>--verify</code> 校验）；SKILL.md/09 号文档里的参数与阈值改动要同步 <code>docs/agent/</code> 四份开发文档。</li>
+    <li>每做完一支片的回流义务：正面经验（做法+证据+为什么+何时用）进 07 号，新坑进对应 reference 的「踩过的坑」，新风格补卡更新 INDEX，CHANGELOG 记一行。</li>
+  </ul>
+
+  <h3>5.8 快速清单（动手前对一遍）</h3>
+  <table>
+    <tr><th>场景</th><th>必做</th></tr>
+    <tr><td>改引擎 JS</td><td>ES5 IIFE、无模块系统；跑一次冷热双渲对比；别破坏 <code>renderFrame(t)</code> 契约</td></tr>
+    <tr><td>加 cue kind</td><td>同步语法卡 + 09 号 + examples 样例；竖屏/真实长度/alpha 各渲一遍</td></tr>
+    <tr><td>加场景</td><td>登记 eras.js；写配方卡进 INDEX；主动作+母题循环；种子</td></tr>
+    <tr><td>加素材</td><td>经 spec 点名（白名单）；缺失要报错；等比不裁关键 UI</td></tr>
+    <tr><td>交付</td><td>红灯不交付；事实段不手改；正常速度看成片；六种做坏方式自查</td></tr>
+  </table>
+</section>
+
+<!-- ============ 6 附录 ============ -->
+<section id="s6">
+  <h2><span class="no">6</span>附录</h2>
+
+  <h3>6.1 术语表</h3>
+  <table>
+    <tr><th style="width:160px">术语</th><th>含义</th></tr>
+    <tr><td>开阔档 / 轨道档</td><td>按使用方 agent 能力分的两条工作路径；轨道档是六步流水线，开阔档允许自由组合与自写渲染器</td></tr>
+    <tr><td>镜头表</td><td>逐镜一行的分镜表（物/动作/镜头/屏上字/做法），表前锁画风色板角色，lint 不过不许写码</td></tr>
+    <tr><td>spec / cue</td><td>clip 模式的 JSON 契约 / 其中一条带时间戳的画面事件（at + kind + 内容）</td></tr>
+    <tr><td>镜头事件 vs 跳变</td><td>qa 判定：2 秒内单调平滑的推拉横移砸入算前者（设计内运镜），否则算跳变（缺陷）</td></tr>
+    <tr><td>theme</td><td>一支片统一色板（名字或 6 键对象），管到最后一帧；不写时各语法用各自默认</td></tr>
+    <tr><td>六键色板</td><td>{bg, surface, ink, sub, accent, accent2}，8 个预置名</td></tr>
+    <tr><td>独立审片</td><td>未参与制作的 agent 只看成片挑问题，结论写 <code>&lt;项目&gt;/审片/*.md</code>，deliver.py 只认这里</td></tr>
+    <tr><td>蓝紫门禁</td><td>蓝紫底帧 ≥30% 红灯；<code>--allow-blue-purple "理由"</code> 可降黄</td></tr>
+  </table>
+
+  <h3>6.2 命令速查</h3>
+  <pre><code># 试渲单段静帧
+uv run --with playwright python scripts/engine/render.py --solo 09_postimp --stills 0.3 --out 试渲
+
+# 参数化片段 / 整片
+uv run --with playwright python scripts/engine/render.py --spec xxx.json --out 镜NN.mp4
+uv run --with playwright python scripts/engine/render.py --out 成片.mp4 --audio 配乐.wav
+
+# 质量链
+uv run scripts/storyboard_lint.py &lt;项目&gt;/镜头表.md --script &lt;项目&gt;/文稿.txt
+uv run scripts/qa.py --project &lt;工程&gt;          # 或 --spec 镜NN.json
+uv run scripts/film_gate.py 成片.mp4
+uv run --with numpy python scripts/subzone_gate.py 成片.mp4   # 浅底无字幕版
+
+# 交付（红灯不复制成片）
+uv run scripts/deliver.py 成片.mp4 --root &lt;项目&gt; --qa &lt;项目&gt;/qa/&lt;镜&gt; --out output/
+
+# 测试 / 拆解 / 发布
+python -m unittest discover -s tests -v
+uv run scripts/analyze/breakdown.py --video 参考.mp4 --out 拆解/
+python scripts/check_release.py check --repo . --ref HEAD --base HEAD~1</code></pre>
+
+  <h3>6.3 图表源文件</h3>
+  <p>本文三张图的源文件在 <code>docs/diagrams/</code>：可编辑的 <code>.drawio</code>（architecture / pipelines / workflow）、自包含 <code>.svg</code>，以及生成脚本 <code>build_huashu_design.py</code>（改图重跑）、<code>drawio2svg.py</code>（SVG 渲染器）、<code>check_geometry.py</code>（连线穿框/标签压框/文字溢出的几何自检，三图全 PASS）。</p>
+
+  <footer>
+    本文档基于 huashu-art-motion v1.0.0（SKILL.md、docs/agent/、references/09、scripts 源码）分析产出 · 生成于 2026-10-25
+  </footer>
+</section>
+
+</div>
+</body>
+</html>
