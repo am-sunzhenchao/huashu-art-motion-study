@@ -1,0 +1,18 @@
+{
+  "grammar": "y1_kurzgesagt",
+  "duration": 14,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "ink",
+  "data": { "center": "以身作则", "center_style": { "shape": "circle" } },
+  "cues": [
+    { "at": 0.5, "kind": "title", "text": "说 vs 做" },
+    { "at": 2.0, "kind": "point", "text": "催孩子学习" },
+    { "at": 4.0, "kind": "point", "text": "自己不再学" },
+    { "at": 6.0, "kind": "point", "text": "孩子不能歇" },
+    { "at": 8.0, "kind": "point", "text": "父母可以歇" },
+    { "at": 10.0, "kind": "highlight", "data": { "index": 1 } },
+    { "at": 12.5, "kind": "highlight", "data": { "index": 3 } }
+  ]
+}

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+  <defs>
+    <filter id="grain2" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="11" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.06"/>
+      </feComponentTransfer>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+    <radialGradient id="vig2" cx="50%" cy="50%" r="72%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.16"/>
+    </radialGradient>
+    <filter id="cardShade2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="6" stdDeviation="10" flood-color="#1B1A17" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="1080" height="1440" fill="#F3EDE2"/>
+  <rect width="1080" height="1440" fill="#F3EDE2" filter="url(#grain2)"/>
+
+  <path d="M0 300 Q 240 352 520 322 T 1080 266" stroke="#C8402F" stroke-width="7" fill="none" opacity="0.92"/>
+  <circle cx="520" cy="330" r="13" fill="#C8402F"/>
+  <circle cx="1044" cy="268" r="13" fill="#C8402F"/>
+
+  <g font-family="PingFang SC, Noto Sans SC, Heiti SC">
+    <g filter="url(#cardShade2)" transform="rotate(-1.4 540 520)">
+      <path d="M66 372 L1014 356 L1020 686 L72 700 Z" fill="#FBF8F2"/>
+      <path d="M72 430 L1016 414" stroke="#C8402F" stroke-width="3" opacity="0.5"/>
+      <path d="M74 512 L1017 496" stroke="#2F5D62" stroke-width="2.4" opacity="0.32"/>
+      <path d="M76 596 L1018 580" stroke="#2F5D62" stroke-width="2.4" opacity="0.32"/>
+      <text x="116" y="504" font-size="76" font-weight="800" fill="#1B1A17">你每天督促孩子好好学习</text>
+      <text x="116" y="632" font-size="76" font-weight="800" fill="#1B1A17">那你自己，多久没学了？</text>
+    </g>
+
+    <g filter="url(#cardShade2)" transform="rotate(0.9 300 900)">
+      <path d="M72 796 L516 788 L520 1086 L76 1094 Z" fill="#FBF8F2"/>
+      <rect x="72" y="796" width="446" height="74" fill="#1B1A17"/>
+      <text x="296" y="848" font-size="38" font-weight="700" fill="#FBF8F2" text-anchor="middle">对孩子的要求</text>
+      <text x="108" y="944" font-size="38" font-weight="600" fill="#1B1A17">1  现在踏实学好</text>
+      <text x="108" y="1012" font-size="38" font-weight="600" fill="#1B1A17">2  周末多刷题</text>
+      <text x="108" y="1070" font-size="38" font-weight="600" fill="#1B1A17">3  排满补习班</text>
+    </g>
+
+    <g filter="url(#cardShade2)" transform="rotate(-1.1 788 900)">
+      <path d="M564 788 L1008 796 L1004 1094 L560 1086 Z" fill="#FBF8F2"/>
+      <rect x="562" y="792" width="446" height="74" fill="#C8402F"/>
+      <text x="786" y="844" font-size="38" font-weight="700" fill="#FBF8F2" text-anchor="middle">对自己的要求</text>
+      <text x="598" y="944" font-size="38" font-weight="600" fill="#6B655B">1  上次学新东西</text>
+      <text x="598" y="1012" font-size="38" font-weight="600" fill="#6B655B">2  周末在充电吗</text>
+      <text x="598" y="1070" font-size="38" font-weight="600" fill="#6B655B">3  十年后的底气</text>
+    </g>
+
+    <path d="M300 1116 Q 540 1168 788 1116" stroke="#C8402F" stroke-width="6" fill="none" opacity="0.9"/>
+
+    <g filter="url(#cardShade2)" transform="rotate(0.6 540 1268)">
+      <rect x="84" y="1180" width="912" height="176" fill="#1B1A17"/>
+      <text x="540" y="1252" font-size="58" font-weight="800" fill="#F3EDE2" text-anchor="middle">孩子不照你说的道理活</text>
+      <text x="540" y="1326" font-size="58" font-weight="800" fill="#F3EDE2" text-anchor="middle">他照着你的样子长大</text>
+    </g>
+
+    <text x="84" y="224" font-size="36" font-weight="700" fill="#C8402F" letter-spacing="6">家庭教育 · 四个自问</text>
+  </g>
+
+  <rect width="1080" height="1440" fill="url(#vig2)"/>
+</svg>

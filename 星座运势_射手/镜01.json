@@ -1,0 +1,24 @@
+{
+  "grammar": "y5_kinetic_type",
+  "duration": 16.5,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "data": {
+    "palette": [
+      ["#FFD23F", "#111111"],
+      ["#FF5A36", "#FFFFFF"],
+      ["#111111", "#FFD23F"],
+      ["#F4EFE6", "#111111"]
+    ]
+  },
+  "cues": [
+    { "at": 0.5, "kind": "title", "text": "射手座", "sub": "被点燃的一周", "data": { "label": "TOP1 · 本周运势" } },
+    { "at": 3.2, "kind": "point", "text": "猛又快", "sub": "天王星一激发，好运又猛又快", "data": { "label": "01", "key": "激发" } },
+    { "at": 5.8, "kind": "point", "text": "三重惊喜", "sub": "临时电话、贵人消息、说走就走的决定", "data": { "label": "02", "key": "说走就走" } },
+    { "at": 8.4, "kind": "point", "text": "强度最高", "sub": "惊喜最猛，也最不可预测", "data": { "label": "03", "key": "最猛" } },
+    { "at": 11.0, "kind": "point", "text": "留点空", "sub": "日程别排满，给意外留位置", "data": { "label": "04", "key": "意外" } },
+    { "at": 13.6, "kind": "point", "text": "别窝着", "sub": "机会来了就起身，火象最怕错过", "data": { "label": "05", "key": "起身" } },
+    { "at": 15.4, "kind": "highlight", "data": { "word": "窝着" } }
+  ]
+}

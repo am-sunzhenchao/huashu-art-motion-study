@@ -1,0 +1,13 @@
+{
+  "grammar": "y5_kinetic_type",
+  "duration": 8,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "poster",
+  "cues": [
+    { "at": 0.5, "kind": "point", "text": "周末", "sub": "他不能停，你可以停？", "data": { "label": "矛盾", "key": "可以" } },
+    { "at": 4.0, "kind": "point", "text": "照样子", "sub": "不是照你说的话长大", "data": { "label": "结论" } },
+    { "at": 7.0, "kind": "highlight", "data": { "word": "照样子" } }
+  ]
+}

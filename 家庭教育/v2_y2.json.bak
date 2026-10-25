@@ -1,0 +1,22 @@
+{
+  "grammar": "y2_vox",
+  "duration": 48,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "paper",
+  "cues": [
+    { "at": 0.0, "kind": "title", "text": "你每天催孩子学习" },
+    { "at": 2.6, "kind": "point", "text": "上一次主动学点新东西，是什么时候？" },
+    { "at": 7.0, "kind": "point", "text": "初中的孩子，还有十年书要读" },
+    { "at": 11.2, "kind": "point", "text": "我们常跟他说：现在好好学，将来才能找个好工作" },
+    { "at": 16.2, "kind": "title", "text": "我们自己呢？" },
+    { "at": 18.6, "kind": "point", "text": "毕业以后一直在上班" },
+    { "at": 22.2, "kind": "point", "text": "有没有坚持学习，争取十年后找到更好的工作？" },
+    { "at": 27.2, "kind": "point", "text": "周末，想着让孩子刷卷做题、给他报满培训班" },
+    { "at": 31.8, "kind": "point", "text": "我们会继续加班工作吗？会去上技能班吗？" },
+    { "at": 36.4, "kind": "title", "text": "这些问题，你的答案是什么？" },
+    { "at": 39.6, "kind": "point", "text": "孩子不是照着你说的话长大的" },
+    { "at": 43.4, "kind": "point", "text": "是照着你的样子长大的" }
+  ]
+}

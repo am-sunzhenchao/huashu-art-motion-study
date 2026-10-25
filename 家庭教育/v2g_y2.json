@@ -1,0 +1,13 @@
+{
+  "grammar": "y2_vox",
+  "duration": 6.5,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "paper",
+  "data": { "camera": "snap" },
+  "cues": [
+    { "at": 0.0, "kind": "title", "text": "那我们自己呢？" },
+    { "at": 1.8, "kind": "point", "text": "周末会不会主动给自己充电，去学习新技能？" }
+  ]
+}

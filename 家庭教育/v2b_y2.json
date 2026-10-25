@@ -1,0 +1,12 @@
+{
+  "grammar": "y2_vox",
+  "duration": 6.5,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "paper",
+  "cues": [
+    { "at": 0.0, "kind": "point", "text": "对于初中生" },
+    { "at": 2.0, "kind": "point", "text": "后面还有近十年的求学时光" }
+  ]
+}

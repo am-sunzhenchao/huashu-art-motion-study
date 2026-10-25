@@ -1,0 +1,29 @@
+{
+ "project": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/scripts/engine",
+ "spec": "/Users/sunzhenchao/Desktop/video-workspace/huashu-art-motion/家庭教育/v4a_y1.json",
+ "segments": [
+  {
+   "id": "家庭教育",
+   "window_lt": [
+    0.0,
+    13.98
+   ],
+   "frames": 419,
+   "ms_mean": 1.6,
+   "ms_max": 4.0,
+   "ms_cold": 4.5,
+   "deterministic": true,
+   "det_maxdiff": 0,
+   "motion_pct": 0.85,
+   "motion_max": 11.85,
+   "still_pairs_pct": 19.6,
+   "spike_ratio": 95.4,
+   "spikes_at_lt": [],
+   "camera_events_lt": [],
+   "framing": [],
+   "text_tracked": 2650
+  }
+ ],
+ "transitions": [],
+ "page_errors": []
+}

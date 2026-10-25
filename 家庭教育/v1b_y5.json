@@ -1,0 +1,12 @@
+{
+  "grammar": "y5_kinetic_type",
+  "duration": 8,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "poster",
+  "cues": [
+    { "at": 0.5, "kind": "point", "text": "十年", "sub": "孩子还有十年书要读", "data": { "label": "孩子" } },
+    { "at": 4.5, "kind": "point", "text": "你呢？", "sub": "毕业后有没有坚持学习", "data": { "label": "父母", "key": "坚持" } }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "grammar": "y5_kinetic_type",
+  "duration": 8,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "ink",
+  "cues": [
+    { "at": 0.8, "kind": "point", "text": "照样子", "sub": "孩子照你的样子长大的" },
+    { "at": 4.5, "kind": "highlight", "data": { "word": "照样子" } }
+  ]
+}

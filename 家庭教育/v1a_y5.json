@@ -1,0 +1,12 @@
+{
+  "grammar": "y5_kinetic_type",
+  "duration": 7.5,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "theme": "poster",
+  "cues": [
+    { "at": 0.5, "kind": "title", "text": "催孩子学习" },
+    { "at": 3.5, "kind": "point", "text": "什么时候？", "sub": "你上次主动学新东西", "data": { "label": "自问" } }
+  ]
+}
